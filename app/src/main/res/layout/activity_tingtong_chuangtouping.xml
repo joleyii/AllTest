@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="jumpClick"
-        android:text="听筒" />
+        android:text="电话机" />
 
     <TextView
         android:id="@+id/tv_chuangtoupign"
