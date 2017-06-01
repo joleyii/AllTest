@@ -31,7 +31,9 @@ public class SerialScanHeadActivity extends BaseAvtivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        serialMain.onDestory();
+        if (serialMain != null) {
+            serialMain.onDestory();
+        }
     }
 
     public void serialClick(View view) {

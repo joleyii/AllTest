@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void downClick(View view) {
-        Intent intent = new Intent(this, SrialMainActivity.class);
+        Intent intent = new Intent(this, SerialMainActivity.class);
         startActivity(intent);
     }
 }
