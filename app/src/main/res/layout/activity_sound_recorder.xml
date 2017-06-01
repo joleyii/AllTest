@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2011 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/tab" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="volumeClick"
+            android:text="减小" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="volumeClick"
+            android:text="增大" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="banzaiClick"
+            android:text="板载" />
+
+
+        <TextView
+            android:id="@+id/tv_tingtongbanzai"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="tingtongClick"
+            android:text="听筒" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/timerViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_bg"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/timerView"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="112dip" />
+
+        <LinearLayout
+            android:id="@+id/stateMessage2Layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/timerView"
+            android:layout_centerHorizontal="true"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/stateLED"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/stateMessage2"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5px"
+                android:text="recording" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/stateMessage1"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stateMessage2Layout"
+            android:layout_centerHorizontal="true" />
+
+        <ProgressBar
+            android:id="@+id/stateProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/timerView"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:max="100"
+            android:orientation="horizontal"
+            android:progress="0" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_currentmode"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="请设置听筒或者板载" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="hardwareClick"
+            android:text="7寸屏" />
+
+
+        <TextView
+            android:id="@+id/tv_10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="hardwareClick"
+            android:text="10寸屏" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_currenthardware"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="请设置7寸还是10寸" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <com.shine.alltest.view.VUMeter
+            android:id="@+id/uvMeter"
+            android:layout_width="200px"
+            android:layout_height="80px"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@android:drawable/title_bar"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dip"
+            android:layout_marginTop="4dip"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/recordButton"
+                style="@style/MediaButton"
+                android:layout_height="match_parent"
+                android:src="@drawable/record" />
+
+            <ImageButton
+                android:id="@+id/playButton"
+                style="@style/MediaButton"
+                android:layout_height="match_parent"
+                android:src="@drawable/play" />
+
+            <ImageButton
+                android:id="@+id/stopButton"
+                style="@style/MediaButton"
+                android:layout_height="match_parent"
+                android:src="@drawable/stop" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
