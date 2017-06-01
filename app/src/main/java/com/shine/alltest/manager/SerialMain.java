@@ -1,6 +1,8 @@
 package com.shine.alltest.manager;
 
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,12 +62,7 @@ public class SerialMain {
     }
 
     public void startReadThread() {
-//        try {
-
-            scheduledExecutorService.scheduleAtFixedRate(runnable, 0, 50, TimeUnit.MILLISECONDS);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        scheduledExecutorService.scheduleAtFixedRate(runnable, 0, 50, TimeUnit.MILLISECONDS);
     }
 
     private Runnable runnable = new Runnable() {
@@ -80,7 +77,9 @@ public class SerialMain {
                 byte[] buffer = new byte[mInputStream.available()];
                 size = mInputStream.read(buffer);
                 if (size > 0) {
+                    Log.d("getString", "buffer:" + buffer);
                     String s = new String(buffer);
+                    Log.d("getString", "String:" + buffer);
                     getString.getBack(s);
                 }
             } catch (IOException e) {

@@ -2,6 +2,7 @@ package com.shine.alltest.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class SerialScanHeadActivity extends BaseAvtivity {
                     @Override
                     public void getBack(String s) {
                         stringBuffer = stringBuffer.insert(0, s + "\n");
+                        Log.d("getString", "stringBuffer:" + stringBuffer);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
