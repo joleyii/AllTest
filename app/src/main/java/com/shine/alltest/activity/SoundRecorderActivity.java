@@ -99,9 +99,7 @@ public class SoundRecorderActivity extends BaseAvtivity
     TextView mStateMessage2;
     TextView mTimerView;
     TextView tv_tingtongbanzai;
-    TextView tv_currenthardware;
-    TextView tv_7;
-    TextView tv_10;
+    TextView tv_currentmode;
     VUMeter mVUMeter;
     private BroadcastReceiver mSDCardMountEventReceiver = null;
     private Intent mIntent;
@@ -134,6 +132,9 @@ public class SoundRecorderActivity extends BaseAvtivity
             Log.e(TAG, "Unable to load package's permissions", e);
             Toast.makeText(this, "runtime_permissions_error", Toast.LENGTH_SHORT).show();
         }
+
+        currentHardWare = getIntent().getIntExtra("currentHardWare", 0);
+        set710();
     }
 
     @Override
@@ -194,9 +195,7 @@ public class SoundRecorderActivity extends BaseAvtivity
         mStateMessage2 = (TextView) findViewById(R.id.stateMessage2);
         mTimerView = (TextView) findViewById(R.id.timerView);
         tv_tingtongbanzai = (TextView) findViewById(R.id.tv_tingtongbanzai);
-        tv_currenthardware = (TextView) findViewById(R.id.tv_currenthardware);
-        tv_7 = (TextView) findViewById(R.id.tv_7);
-        tv_10 = (TextView) findViewById(R.id.tv_10);
+        tv_currentmode = (TextView) findViewById(R.id.tv_currentmode);
 
         mVUMeter = (VUMeter) findViewById(R.id.uvMeter);
 
@@ -781,6 +780,7 @@ public class SoundRecorderActivity extends BaseAvtivity
     public void banzaiClick(View view) {
         if (currentHardWare == 7) {
             mA64Utility.SelectMicDev(0);
+            tv_currentmode.setText("当前选择板载");
         } else if (currentHardWare == 10) {
             set10Mic(0);
         }
@@ -789,6 +789,7 @@ public class SoundRecorderActivity extends BaseAvtivity
     public void tingtongClick(View view) {
         if (currentHardWare == 7) {
             mA64Utility.SelectMicDev(1);
+            tv_currentmode.setText("当前选择手持mic");
         } else if (currentHardWare == 10) {
             set10Mic(1);
         }
@@ -836,6 +837,7 @@ public class SoundRecorderActivity extends BaseAvtivity
 
                     }
                 }).start();
+                tv_currentmode.setText("当前选择听筒");
                 break;
             case 0://板载
                 mA64Utility.selectMic(0);
@@ -850,49 +852,22 @@ public class SoundRecorderActivity extends BaseAvtivity
                         mSuClient.execCMD("tinymix 112 0");
                     }
                 }).start();
+                tv_currentmode.setText("当前选择板载");
                 break;
         }
     }
 
     int currentHardWare;
 
-    public void hardwareClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_7:
-                currentHardWare = 7;
-                tv_currenthardware.setText("设置7寸屏");
-                tv_tingtongbanzai.setText("手持mic");
-                break;
-            case R.id.tv_10:
-                tv_currenthardware.setText("设置10寸屏");
-                tv_tingtongbanzai.setText("手持听筒");
-                currentHardWare = 10;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mSuClient == null) {
-                            mSuClient = new SuClient();
-                            mSuClient.init(null);
-                        }
-                        mSuClient.execCMD("echo 199 >  /sys/class/gpio/export");
-                        mSuClient.execCMD("echo \"in\" > /sys/class/gpio/gpio199/direction");
-                        mSuClient.execCMD("chmod 777 /sys/class/gpio/gpio199/value");
-                    }
-                }).start();
-                break;
-
-        }
-    }
-
     public void set710() {
         switch (currentHardWare) {
             case 7:
-                tv_currenthardware.setText("设置7寸屏");
                 tv_tingtongbanzai.setText("手持mic");
+                tv_currentmode.setText("请设置手持mic或者板载");
                 break;
             case 10:
-                tv_currenthardware.setText("设置10寸屏");
-                tv_tingtongbanzai.setText("手持听筒");
+                tv_tingtongbanzai.setText("听筒");
+                tv_currentmode.setText("请设置听筒或者板载");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

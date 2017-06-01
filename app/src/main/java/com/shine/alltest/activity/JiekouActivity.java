@@ -30,7 +30,7 @@ public class JiekouActivity extends BaseAvtivity {
                 startActivity(intent2);
                 break;
             case R.id.tv_3:
-                Intent intent4 = new Intent(this, SoundRecorderActivity.class);
+                Intent intent4 = new Intent(this, TingTongChuangtouActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.tv_5:

@@ -11,12 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:onClick="jumpClick" />
+        android:gravity="center"
+        android:onClick="jumpClick"
+        android:text="听筒" />
 
     <TextView
         android:id="@+id/tv_chuangtoupign"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:onClick="jumpClick" />
+        android:gravity="center"
+        android:onClick="jumpClick"
+        android:text="床头屏" />
 </LinearLayout>
