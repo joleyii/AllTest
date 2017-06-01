@@ -1,8 +1,6 @@
 package com.shine.alltest.manager;
 
 
-import android.util.Log;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,7 +80,6 @@ public class SerialMain {
                 byte[] buffer = new byte[mInputStream.available()];
                 size = mInputStream.read(buffer);
                 if (size > 0) {
-                    Log.d("stringBuffer", buffer + "");
                     String s = new String(buffer);
                     getString.getBack(s);
                 }
