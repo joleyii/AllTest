@@ -45,8 +45,9 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_serial"
+            android:id="@+id/tv_scan_out"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center|top" />
     </ScrollView>
 </LinearLayout>

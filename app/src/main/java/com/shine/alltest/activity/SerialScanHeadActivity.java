@@ -14,7 +14,7 @@ import com.shine.alltest.manager.SerialMain;
 
 public class SerialScanHeadActivity extends BaseAvtivity {
     private SerialMain serialMain;
-    private TextView tv_serial;
+    private TextView tv_scan_out;
     private StringBuffer stringBuffer;
     private TextView tv_current_serial;
 
@@ -23,9 +23,9 @@ public class SerialScanHeadActivity extends BaseAvtivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial_scan_head);
-        tv_serial = (TextView) findViewById(R.id.tv_serial);
+        stringBuffer = new StringBuffer();
+        tv_scan_out = (TextView) findViewById(R.id.tv_scan_out);
         tv_current_serial = (TextView) findViewById(R.id.tv_current_serial);
-
     }
 
     @Override
@@ -37,23 +37,39 @@ public class SerialScanHeadActivity extends BaseAvtivity {
     public void serialClick(View view) {
         switch (view.getId()) {
             case R.id.tv_3:
-                //ttyS3 4
-                serialMain = new SerialMain("/dev/ttyS1", 9600, new SerialMain.GetString() {
+                if (serialMain != null) {
+                    serialMain.onDestory();
+                }
+                tv_current_serial.setText("当前选择串口3");
+                serialMain = new SerialMain("/dev/ttyS3", 9600, new SerialMain.GetString() {
                     @Override
                     public void getBack(String s) {
-                        stringBuffer = stringBuffer.append(s, 0, s.length());
-                        tv_serial.setText(stringBuffer);
+                        stringBuffer = stringBuffer.insert(0, s + "\n");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_scan_out.setText(stringBuffer.toString());
+                            }
+                        });
                     }
                 });
                 serialMain.startReadThread();
                 break;
             case R.id.tv_4:
-                //ttyS3 4
-                serialMain = new SerialMain("/dev/ttyS1", 9600, new SerialMain.GetString() {
+                if (serialMain != null) {
+                    serialMain.onDestory();
+                }
+                tv_current_serial.setText("当前选择串口4");
+                serialMain = new SerialMain("/dev/ttyS4", 9600, new SerialMain.GetString() {
                     @Override
                     public void getBack(String s) {
-                        stringBuffer = stringBuffer.append(s, 0, s.length());
-                        tv_serial.setText(stringBuffer);
+                        stringBuffer = stringBuffer.insert(0, s + "\n");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_scan_out.setText(stringBuffer.toString());
+                            }
+                        });
                     }
                 });
                 serialMain.startReadThread();
