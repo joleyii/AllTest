@@ -44,6 +44,8 @@
         <activity android:name=".activity.TingTongChuangtouActivity" />
         <activity android:name=".activity.Open4KeyActivity" />
         <activity android:name=".activity.CameraActivity" />
+        <activity android:name=".activity.SerialScanHeadActivity" />
+        <activity android:name=".activity.SrialMainActivity" />
 
         <service android:name=".service.ShutSownService" />
         <service android:name=".service.Open4KeyService" />

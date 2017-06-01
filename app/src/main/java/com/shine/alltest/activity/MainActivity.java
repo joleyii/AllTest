@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void downClick(View view) {
-
+        Intent intent = new Intent(this, SrialMainActivity.class);
+        startActivity(intent);
     }
 }
