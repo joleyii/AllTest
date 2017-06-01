@@ -174,6 +174,7 @@ public class SoundRecorderActivity extends BaseAvtivity
         audioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // 获取最大音乐音量
         maxVolume = audioMgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        Log.d("Volume", "maxVolume" + maxVolume);
         // 初始化音量大概为最大音量的1/2
         curVolume = maxVolume / 2;
         // 每次调整的音量大概为最大音量的1/6
@@ -817,6 +818,7 @@ public class SoundRecorderActivity extends BaseAvtivity
     }
 
     private void adjustVolume() {
+        Log.d("Volume", "curVolume" + curVolume);
         audioMgr.setStreamVolume(AudioManager.STREAM_MUSIC, curVolume,
                 AudioManager.FLAG_PLAY_SOUND);
     }
