@@ -44,12 +44,14 @@
         <activity android:name=".activity.TingTongChuangtouActivity" />
         <activity android:name=".activity.Open4KeyActivity" />
         <activity android:name=".activity.CameraActivity" />
+        <activity android:name=".activity.PlayAudioActivity" />
         <activity android:name=".activity.SerialScanHeadActivity" />
         <activity android:name=".activity.SerialMainActivity" />
         <activity android:name=".activity.SerialMagneticStripeCardActivity" />
 
         <service android:name=".service.ShutSownService" />
         <service android:name=".service.Open4KeyService" />
+        <service android:name=".service.AudioService" />
 
     </application>
 

@@ -45,6 +45,10 @@ public class JiekouActivity extends BaseAvtivity {
                 Intent intent7 = new Intent(this, CameraActivity.class);
                 startActivity(intent7);
                 break;
+            case R.id.tv_8:
+                Intent intent8 = new Intent(this, PlayAudioActivity.class);
+                startActivity(intent8);
+                break;
         }
     }
 }

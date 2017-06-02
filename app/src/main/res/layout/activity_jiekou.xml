@@ -72,5 +72,14 @@
             android:gravity="center"
             android:onClick="clickT"
             android:text="相机预览" />
+
+        <TextView
+            android:id="@+id/tv_8"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="播放音乐" />
     </LinearLayout>
 </LinearLayout>
