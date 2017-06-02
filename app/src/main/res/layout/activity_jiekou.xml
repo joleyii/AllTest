@@ -6,63 +6,71 @@
 
     <include layout="@layout/tab" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="100dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="时钟" />
 
-            <TextView
-                android:id="@+id/tv_1"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:onClick="clickT"
-                android:text="时钟" />
+        <TextView
+            android:id="@+id/tv_6"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="开关机" />
 
-            <TextView
-                android:id="@+id/tv_6"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:onClick="clickT"
-                android:text="开关机" />
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="开关屏" />
 
-            <TextView
-                android:id="@+id/tv_2"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:onClick="clickT"
-                android:text="开关屏" />
-
-            <TextView
-                android:id="@+id/tv_3"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:onClick="clickT"
-                android:text="mic" />
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="mic" />
 
 
-            <TextView
-                android:id="@+id/tv_5"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:onClick="clickT"
-                android:text="4键功能及背景灯" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_7"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:onClick="clickT"
-                android:text="相机预览" />
-        </LinearLayout>
-    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_5"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="4键功能及背景灯" />
+
+        <TextView
+            android:id="@+id/tv_7"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="clickT"
+            android:text="相机预览" />
+    </LinearLayout>
 </LinearLayout>
