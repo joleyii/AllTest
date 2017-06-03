@@ -928,9 +928,6 @@ public class SoundRecorderActivity extends BaseAvtivity
     public void getCurrentSpeaker(final int type) {
         final String sFile = "/sdcard/tinymixnow" + type;
         final File file = new File(sFile);
-//        if (!file.exists()) {
-//            file.mkdirs();
-//        }
         Flowable
                 .create(new FlowableOnSubscribe<String>() {
                     @Override
