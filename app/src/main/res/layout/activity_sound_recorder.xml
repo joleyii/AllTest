@@ -142,7 +142,6 @@
         android:gravity="center"
         android:text="请设置听筒或者板载" />
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -156,7 +155,6 @@
             android:layout_gravity="center" />
 
     </FrameLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
