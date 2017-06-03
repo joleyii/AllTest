@@ -938,7 +938,7 @@ public class SoundRecorderActivity extends BaseAvtivity
                         }
                         mSuClient.execCMD("tinymix " + type + " > " + sFile);
                         try {
-                            Thread.sleep(50);
+                            Thread.sleep(200);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
