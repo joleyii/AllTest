@@ -40,6 +40,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,9 +58,22 @@ import com.shine.alltest.manager.SuClient;
 import com.shine.alltest.view.VUMeter;
 import com.shine.utilitylib.A64Utility;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class SoundRecorderActivity extends BaseAvtivity
         implements Button.OnClickListener, Recorder.OnStateChangedListener {
@@ -100,6 +114,8 @@ public class SoundRecorderActivity extends BaseAvtivity
     TextView mTimerView;
     TextView tv_tingtongbanzai;
     TextView tv_currentmode;
+    TextView tv_speakernow;
+    TextView tv_earpiecenow;
     VUMeter mVUMeter;
     private BroadcastReceiver mSDCardMountEventReceiver = null;
     private Intent mIntent;
@@ -109,7 +125,6 @@ public class SoundRecorderActivity extends BaseAvtivity
     @Override
     public void onCreate(Bundle icycle) {
         super.onCreate(icycle);
-
         mA64Utility = new A64Utility();
         mIntent = getIntent();
         mBundle = icycle;
@@ -165,6 +180,7 @@ public class SoundRecorderActivity extends BaseAvtivity
     private Button down = null;
     private Button up = null;
     private ProgressBar pb = null;
+
     private int maxVolume = 50; // 最大音量值
     private int curVolume = 20; // 当前音量值
     private int stepVolume = 0; // 每次调整的音量幅度
@@ -197,6 +213,8 @@ public class SoundRecorderActivity extends BaseAvtivity
         mTimerView = (TextView) findViewById(R.id.timerView);
         tv_tingtongbanzai = (TextView) findViewById(R.id.tv_tingtongbanzai);
         tv_currentmode = (TextView) findViewById(R.id.tv_currentmode);
+        tv_speakernow = (TextView) findViewById(R.id.tv_speakernow);
+        tv_earpiecenow = (TextView) findViewById(R.id.tv_earpiecenow);
 
         mVUMeter = (VUMeter) findViewById(R.id.uvMeter);
 
@@ -211,7 +229,10 @@ public class SoundRecorderActivity extends BaseAvtivity
         pb = (ProgressBar) findViewById(R.id.progress);
         pb.setMax(maxVolume);
         pb.setProgress(curVolume);
+
         mVUMeter.setRecorder(mRecorder);
+        getCurrentSpeaker(14);
+        getCurrentSpeaker(13);
     }
 
     /*
@@ -310,7 +331,6 @@ public class SoundRecorderActivity extends BaseAvtivity
             mSampleInterrupted = mRecorder.state() == Recorder.RECORDING_STATE;
             mRecorder.stop();
         }
-
         super.onPause();
     }
 
@@ -805,6 +825,7 @@ public class SoundRecorderActivity extends BaseAvtivity
                     curVolume = maxVolume;
                 }
                 pb.setProgress(curVolume);
+                adjustVolume();
                 break;
             case R.id.down://按下减小音量按钮
                 curVolume -= stepVolume;
@@ -812,9 +833,21 @@ public class SoundRecorderActivity extends BaseAvtivity
                     curVolume = 0;
                 }
                 pb.setProgress(curVolume);
+                adjustVolume();
+                break;
+            case R.id.speakerup://按下减小音量按钮
+                setTinymixUp(14, true);
+                break;
+            case R.id.speakerdown://按下减小音量按钮
+                setTinymixUp(14, false);
+                break;
+            case R.id.earpieceup://按下减小音量按钮
+                setTinymixUp(13, true);
+                break;
+            case R.id.earpiecedown://按下减小音量按钮
+                setTinymixUp(13, false);
                 break;
         }
-        adjustVolume();
     }
 
     private void adjustVolume() {
@@ -883,7 +916,143 @@ public class SoundRecorderActivity extends BaseAvtivity
                     }
                 }).start();
                 break;
-
         }
+    }
+
+    int currentSpeaker;
+    int maxSpeaker;
+    int currentearpiece;
+    int maxearpiece;
+
+    //获得Speaker大小
+    public void getCurrentSpeaker(final int type) {
+        final String sFile = "/sdcard/tinymixnow" + type;
+        final File file = new File(sFile);
+//        if (!file.exists()) {
+//            file.mkdirs();
+//        }
+        Flowable
+                .create(new FlowableOnSubscribe<String>() {
+                    @Override
+                    public void subscribe(FlowableEmitter<String> emitter) throws Exception {
+                        if (mSuClient == null) {
+                            mSuClient = new SuClient();
+                            mSuClient.init(null);
+                        }
+                        mSuClient.execCMD("tinymix " + type + " > " + sFile);
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            FileInputStream fileInputStream = new FileInputStream(file);
+                            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                            String line = "";
+                            String now = "";
+                            String max = "";
+                            while (((line = bufferedReader.readLine()) != null)) {
+                                now = line.substring(line.indexOf(":") + 2,
+                                        line.indexOf("(") - 1);
+                                max = line.substring(line.indexOf(">") + 1,
+                                        line.indexOf(")"));
+                            }
+                            if (!TextUtils.isEmpty(now) && !TextUtils.isEmpty(max)) {
+                                switch (type) {
+                                    case 14:
+                                        currentSpeaker = Integer.parseInt(now);
+                                        maxSpeaker = Integer.parseInt(max);
+                                        break;
+                                    case 13:
+                                        currentearpiece = Integer.parseInt(now);
+                                        maxearpiece = Integer.parseInt(max);
+                                        break;
+                                }
+                                emitter.onNext(now);
+                            }
+                            fileInputStream.close();
+                            inputStreamReader.close();
+                            bufferedReader.close();
+                            emitter.onComplete();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        //UI改变当前音量
+                        switch (type) {
+                            case 14:
+                                tv_speakernow.setText("0" + " " + s + " " + maxSpeaker);
+                                break;
+                            case 13:
+                                tv_earpiecenow.setText("0" + " " + s + " " + maxearpiece);
+                                break;
+                        }
+                    }
+                });
+    }
+
+    public void setTinymixUp(final int type, final boolean upB) {
+        Flowable
+                .create(new FlowableOnSubscribe<String>() {
+                    @Override
+                    public void subscribe(FlowableEmitter<String> emitter) throws Exception {
+                        if (mSuClient == null) {
+                            mSuClient = new SuClient();
+                            mSuClient.init(null);
+                        }
+                        switch (type) {
+                            case 14:
+                                if (upB) {
+                                    int up = currentSpeaker + 3;
+                                    if (up > maxSpeaker) {
+                                        up = maxSpeaker;
+                                    }
+                                    mSuClient.execCMD("tinymix " + type + " " + up);
+                                } else {
+                                    int up = currentSpeaker - 3;
+                                    if (up < 0) {
+                                        up = 0;
+                                    }
+                                    mSuClient.execCMD("tinymix " + type + " " + up);
+                                }
+                                break;
+                            case 13:
+                                if (upB) {
+                                    int up1 = currentearpiece + 3;
+                                    if (up1 > maxearpiece) {
+                                        up1 = maxearpiece;
+                                    }
+                                    mSuClient.execCMD("tinymix " + type + " " + up1);
+                                } else {
+                                    int up1 = currentearpiece - 3;
+                                    if (up1 < 0) {
+                                        up1 = 0;
+                                    }
+                                    mSuClient.execCMD("tinymix " + type + " " + up1);
+                                }
+                                break;
+                        }
+                        emitter.onNext("");
+                        emitter.onComplete();
+                    }
+                }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        //UI改变当前音量
+                        getCurrentSpeaker(type);
+                    }
+                });
     }
 }
